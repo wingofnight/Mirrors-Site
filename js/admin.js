@@ -294,14 +294,18 @@ async function addImageToNewEditor() {
         const img = `<p><img src="${result.src}" alt="Изображение" style="max-width:100%; border-radius:8px; box-shadow:0 4px 12px rgba(0,0,0,0.3);"></p>`;
         insertTextToEditor(img);
 
-        // Добавляем в галерею
-        const id = screenshots.length ? Math.max(...screenshots.map(s => s.id)) + 1 : 1;
-        screenshots.push({
-          id: id,
-          src: result.src,
-          alt: `Скриншот из миссии ${document.getElementById('newMissionTitle').value || 'без названия'}`
-        });
-        renderScreenshotsList();
+        // 🔁 Проверяем, включён ли тогл
+        const addToGallery = document.getElementById('addToGalleryToggle').checked;
+
+        if (addToGallery) {
+          const id = screenshots.length ? Math.max(...screenshots.map(s => s.id)) + 1 : 1;
+          screenshots.push({
+            id: id,
+            src: result.src,
+            alt: `Скриншот из миссии "${document.getElementById('newMissionTitle').value || 'без названия'}"`
+          });
+          renderScreenshotsList();
+        }
       } else {
         alert('Ошибка загрузки: ' + result.error);
       }
@@ -312,6 +316,7 @@ async function addImageToNewEditor() {
 
   input.click();
 }
+
 
 // ==============
 // 📄 Формирование HTML-файла миссии
@@ -332,11 +337,7 @@ function generateMissionHTML(id, title, subtitle, content) {
       padding: 60px 20px;
       margin: 0;
     }
-    .container {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 0 15px;
-    }
+   
     h1 {
       color: #e74c3c;
       font-size: 2.5rem;
@@ -401,8 +402,7 @@ function generateMissionHTML(id, title, subtitle, content) {
     <h1>${title}</h1>
     <p><em>${subtitle}</em></p>
     ${content}
-    <hr>
-    <a href="../index.html" class="btn">&larr; Назад к фан-сайту</a>
+   
   </div>
 </body>
 </html>`;
@@ -531,6 +531,7 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('newMissionTitle').value = '';
     document.getElementById('newMissionSubtitle').value = '';
     document.getElementById('newMissionEditor').innerHTML = '';
+     document.getElementById('addToGalleryToggle').checked = true; // По умолчанию включено
 
     const saveBtn = document.getElementById('saveNewMission');
     saveBtn.textContent = '➕ Добавить';

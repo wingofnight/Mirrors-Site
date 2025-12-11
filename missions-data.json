@@ -93,5 +93,19 @@
         "subtitle": "ad",
         "src": "missions/mission15.html",
         "content": "<p>adad</p><p><img src=\"uploads/scr_1765431012_3cbdb3e4.jpg\" alt=\"Изображение\" style=\"border-radius: 8px; box-shadow: rgba(0, 0, 0, 0.3) 0px 4px 12px;\"></p>"
+    },
+    {
+        "id": 22,
+        "title": "22",
+        "subtitle": "22",
+        "src": "missions/mission22.html",
+        "content": "<p>asd</p><p><img src=\"uploads/scr_1765432232_28bf70b7.jpg\" alt=\"Изображение\" style=\"border-radius: 8px; box-shadow: rgba(0, 0, 0, 0.3) 0px 4px 12px;\"></p>"
+    },
+    {
+        "id": 23,
+        "title": "23",
+        "subtitle": "23",
+        "src": "missions/mission23.html",
+        "content": "<p>232332</p><p><img src=\"uploads/scr_1765432327_9a0725db.jpg\" alt=\"Изображение\" style=\"border-radius: 8px; box-shadow: rgba(0, 0, 0, 0.3) 0px 4px 12px;\"></p>"
     }
 ]

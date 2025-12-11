@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,16 +8,20 @@
   <link href="css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
   <link rel="stylesheet" href="css/admin.css">
-  
+
   <script src="js/bootstrap.bundle.min.js"></script>
   <script src="js/screenshots.js"></script>
   <script src="js/admin.js"></script>
 </head>
-<body class="bg-dark text-white" style="min-height: 100vh; display: flex; align-items: center; justify-content: center;">
+
+<body class="bg-dark text-white"
+  style="min-height: 100vh; display: flex; align-items: center; justify-content: center;">
 
   <!-- === МОДАЛЬНОЕ ОКНО ВХОДА === -->
-  <div id="loginModal" class="modal-backdrop" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); display: flex; align-items: center; justify-content: center; z-index: 1050;">
-    <div class="text-center" style="color: white; max-width: 400px; padding: 30px; background: #2c3e50; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.4);">
+  <div id="loginModal" class="modal-backdrop"
+    style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); display: flex; align-items: center; justify-content: center; z-index: 1050;">
+    <div class="text-center"
+      style="color: white; max-width: 400px; padding: 30px; background: #2c3e50; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.4);">
       <h4><i class="fas fa-lock text-warning"></i> Вход в админку</h4>
       <p class="text-muted small mt-2">Требуется для редактирования миссий</p>
       <input type="password" id="adminPassword" class="form-control mt-3" placeholder="Введите пароль" autofocus>
@@ -141,14 +146,28 @@
 
           <!-- Редактор -->
           <div class="editor-toolbar mb-2">
-            <button type="button" class="btn btn-sm btn-outline-light" onclick="insertTextToEditor('<p>Новый абзац</p>')">📄</button>
-            <button type="button" class="btn btn-sm btn-outline-light" onclick="insertTextToEditor('<h3>Заголовок</h3>')">H3</button>
-            <button type="button" class="btn btn-sm btn-outline-light" onclick="insertTextToEditor('<strong>Жирный</strong>')"><b>B</b></button>
-            <button type="button" class="btn btn-sm btn-outline-light" onclick="insertTextToEditor('<em>Курсив</em>')"><i>I</i></button>
-            <button type="button" class="btn btn-sm btn-outline-success" onclick="addImageToNewEditor()">🖼️ Картинка</button>
+            <button type="button" class="btn btn-sm btn-outline-light"
+              onclick="insertTextToEditor('<p>Новый абзац</p>')">📄</button>
+            <button type="button" class="btn btn-sm btn-outline-light"
+              onclick="insertTextToEditor('<h3>Заголовок</h3>')">H3</button>
+            <button type="button" class="btn btn-sm btn-outline-light"
+              onclick="insertTextToEditor('<strong>Жирный</strong>')"><b>B</b></button>
+            <button type="button" class="btn btn-sm btn-outline-light"
+              onclick="insertTextToEditor('<em>Курсив</em>')"><i>I</i></button>
+            <button type="button" class="btn btn-sm btn-outline-success" onclick="addImageToNewEditor()">🖼️
+              Картинка</button>
           </div>
 
-          <div id="newMissionEditor" contenteditable="true" class="editor-container" placeholder="Напишите текст миссии здесь..."></div>
+          <div class="form-check form-switch mb-3">
+            <input class="form-check-input" type="checkbox" id="addToGalleryToggle" checked>
+            <label class="form-check-label" for="addToGalleryToggle">
+              <i class="fas fa-image text-danger"></i>
+              Добавлять изображения в галерею скриншотов
+            </label>
+          </div>
+
+          <div id="newMissionEditor" contenteditable="true" class="editor-container"
+            placeholder="Напишите текст миссии здесь..."></div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
@@ -167,7 +186,8 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
         <div class="text-center px-4 mt-3">
-          <img id="editScreenshotPreview" src="https://via.placeholder.com/400x225?text=Предпросмотр" alt="Превью" class="img-fluid rounded-3 shadow-sm" style="height: 200px; object-fit: cover;">
+          <img id="editScreenshotPreview" src="https://via.placeholder.com/400x225?text=Предпросмотр" alt="Превью"
+            class="img-fluid rounded-3 shadow-sm" style="height: 200px; object-fit: cover;">
         </div>
         <div class="modal-body">
           <div class="mb-3">
@@ -184,10 +204,14 @@
   </div>
 
   <!-- === МОДАЛЬНОЕ ОКНО: ПОЛНЫЙ РАЗМЕР === -->
-  <div id="fullscreenModal" class="modal-overlay" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.9); display: flex; align-items: center; justify-content: center; z-index: 9999; opacity: 0; visibility: hidden; transition: opacity 0.3s; cursor: pointer;">
+  <div id="fullscreenModal" class="modal-overlay"
+    style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.9); display: flex; align-items: center; justify-content: center; z-index: 9999; opacity: 0; visibility: hidden; transition: opacity 0.3s; cursor: pointer;">
     <div style="position: relative;">
-      <button type="button" class="btn btn-outline-light btn-sm rounded-circle" style="position: absolute; top: 10px; right: 10px; width: 36px; height: 36px; z-index: 10; font-size: 1.2rem; padding: 0; display: flex; align-items: center; justify-content: center;" onclick="closeFullscreen()">×</button>
-      <img id="fullscreenImage" style="max-width: 90vw; max-height: 90vh; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); object-fit: contain;">
+      <button type="button" class="btn btn-outline-light btn-sm rounded-circle"
+        style="position: absolute; top: 10px; right: 10px; width: 36px; height: 36px; z-index: 10; font-size: 1.2rem; padding: 0; display: flex; align-items: center; justify-content: center;"
+        onclick="closeFullscreen()">×</button>
+      <img id="fullscreenImage"
+        style="max-width: 90vw; max-height: 90vh; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); object-fit: contain;">
     </div>
   </div>
 
@@ -199,4 +223,5 @@
   </style>
 
 </body>
+
 </html>
