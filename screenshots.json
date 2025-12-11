@@ -1,42 +1,32 @@
 [
     {
-        "id": 1,
-        "src": "https://pbs.twimg.com/media/GqL5cRDaAAAg1jG.jpg",
-        "alt": "Паркур в городе"
-    },
-    {
         "id": 2,
-        "src": "https://pbs.twimg.com/media/GqL5cTta4AA_qTj.jpg",
-        "alt": "Вид на Стекло"
-    },
-    {
-        "id": 3,
-        "src": "https://pbs.twimg.com/media/GqL5cQ4b0AA103Z.jpg",
-        "alt": "Бег по крышам"
+        "src": "uploads/scr_1765429972_79613a80.png",
+        "alt": "Скриншот из миссии 13"
     },
     {
         "id": 4,
-        "src": "https://pbs.twimg.com/media/GqL5cRPagAAuhx9.jpg",
-        "alt": "Ночной город"
+        "src": "uploads/scr_1765430767_fa4dc1ca.jpg",
+        "alt": "Скриншот из миссии 14"
     },
     {
         "id": 5,
-        "src": "https://pbs.twimg.com/media/GptdfuSaIAARPN6.jpg",
-        "alt": "Прыжок Фэйт"
+        "src": "uploads/scr_1765430775_b0f7e8ca.png",
+        "alt": "Скриншот из миссии 14"
     },
     {
         "id": 6,
-        "src": "https://avatars.mds.yandex.net/i?id=c861bcf55f05cf6d188eb91b797ec923_l-10231558-images-thumbs&n=13",
-        "alt": "тест1"
-    },
-    {
-        "id": 7,
-        "src": "uploads/scr_1765251547_6ae3f2d8.png",
-        "alt": "1"
+        "src": "uploads/scr_1765430864_45f8c9aa.png",
+        "alt": "4"
     },
     {
         "id": 8,
-        "src": "https://i.ytimg.com/vi/3r6LNl60z3g/maxresdefault.jpg",
-        "alt": "2222"
+        "src": "uploads/scr_1765430961_cde29c2a.jpg",
+        "alt": "4"
+    },
+    {
+        "id": 10,
+        "src": "uploads/scr_1765431117_3f837f0c.jpg",
+        "alt": "Скриншот из миссии 13"
     }
 ]
