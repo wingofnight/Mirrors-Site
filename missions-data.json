@@ -1,0 +1,20 @@
+[
+    {
+        "id": 1,
+        "title": "ОСВОБОЖДЕНИЕ2",
+        "subtitle": "— обучение паркуру и базовому бою",
+        "src": "missions/mission1.html"
+    },
+    {
+        "id": 2,
+        "title": "СТАРЫЕ ДРУЗЬЯ",
+        "subtitle": "— сбор чипов, уклонение от K-Sec",
+        "src": "missions/mission2.html"
+    },
+    {
+        "id": 3,
+        "title": "тест",
+        "subtitle": "45",
+        "src": "missions/missionX.html"
+    }
+]

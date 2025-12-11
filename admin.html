@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Админка — Mirror's Edge Catalyst</title>
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/admin.css">
+    
+  <script src="js/bootstrap.bundle.min.js"></script>
+
+  <script src="js/screenshots.js"></script>
+
+  <script src="js/admin.js"></script>
+
+</head>
+<body class="bg-dark text-white" style="min-height: 100vh; display: flex; align-items: center; justify-content: center;">
+
+  <!-- Модальное окно входа -->
+  <div id="loginModal" class="modal-backdrop" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); display: flex; align-items: center; justify-content: center; z-index: 1050;">
+    <div class="text-center" style="color: white; max-width: 400px; padding: 30px; background: #2c3e50; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.4);">
+      <h4><i class="fas fa-lock text-warning"></i> Вход в админку</h4>
+      <p class="text-muted small mt-2">Требуется для редактирования миссий</p>
+      <input type="password" id="adminPassword" class="form-control mt-3" placeholder="Введите пароль" autofocus>
+      <div id="passwordError" class="text-danger mt-2 d-none">Неверный пароль!</div>
+      <button onclick="checkPassword()" class="btn btn-success mt-3 px-4">
+        <i class="fas fa-sign-in-alt"></i> Войти
+      </button>
+    </div>
+  </div>
+
+  <!-- Основная админка (изначально скрыта) -->
+  <div id="adminPanel" style="display: none; width: 100%;">
+    <!-- Твой старый контент -->
+  <div class="container my-5">
+  <!-- Вкладки -->
+  <ul class="nav nav-tabs mb-4">
+    <li class="nav-item">
+      <a class="nav-link active" data-bs-toggle="tab" href="#missions">Миссии</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-toggle="tab" href="#screenshots">Скриншоты</a>
+    </li>
+  </ul>
+
+  <!-- Контент вкладок -->
+  <div class="tab-content">
+
+    <!-- ВКЛАДКА: МИССИИ (старый интерфейс) -->
+    <div class="tab-pane fade show active" id="missions">
+      <!-- Форма добавления миссии -->
+      <div class="card shadow-sm mb-4">
+        <div class="card-header bg-dark text-white">
+          <h5 class="mb-0">Добавить миссию</h5>
+        </div>
+        <div class="card-body">
+          <form id="missionForm">
+            <div class="row g-3">
+              <div class="col-md-2">
+                <label>№</label>
+                <input type="number" class="form-control" id="id" required>
+              </div>
+              <div class="col-md-4">
+                <label>Название</label>
+                <input type="text" class="form-control" id="title" required>
+              </div>
+              <div class="col-md-4">
+                <label>Кратко</label>
+                <input type="text" class="form-control" id="subtitle" placeholder="— например, сбор чипов">
+              </div>
+              <div class="col-md-4">
+                <label>Файл описания</label>
+                <input type="text" class="form-control" id="src" value="missions/missionX.html" required>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-success mt-3">Добавить</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Список миссий -->
+      <div class="card shadow-sm">
+        <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+          <h5 class="mb-0">Список миссий</h5>
+          <button onclick="saveToServer()" class="btn btn-primary mt-3">
+  <i class="fas fa-save"></i> Сохранить на сервере
+</button>
+        </div>
+        <ul id="missionsList" class="list-group list-group-flush"></ul>
+      </div>
+    </div>
+
+    <!-- ВКЛАДКА: СКРИНШОТЫ (новый интерфейс) -->
+    <div class="tab-pane fade" id="screenshots">
+     <!-- Форма добавления скриншота -->
+<div class="card shadow-sm mb-4">
+  <div class="card-header bg-dark text-white">
+    <h5 class="mb-0">Добавить скриншот</h5>
+  </div>
+  <div class="card-body">
+    <form id="screenshotForm">
+
+      <!-- Группа: выбор способа -->
+      <div class="mb-3">
+        <label class="form-label">Способ добавления</label>
+        <div class="btn-group d-block" role="group">
+          <input type="radio" class="btn-check" name="srcType" id="srcUrl" autocomplete="off" checked>
+          <label class="btn btn-outline-primary" for="srcUrl">По ссылке</label>
+
+          <input type="radio" class="btn-check" name="srcType" id="srcFile" autocomplete="off">
+          <label class="btn btn-outline-success" for="srcFile">Файл с компьютера</label>
+        </div>
+      </div>
+
+      <!-- Поле: ссылка -->
+      <div id="urlField" class="mb-3">
+        <label class="form-label">Ссылка на изображение</label>
+        <input type="url" class="form-control" id="screenshotSrc">
+      </div>
+
+      <!-- Поле: файл -->
+      <div id="fileField" class="mb-3" style="display: none;">
+        <label class="form-label">Выберите файл</label>
+        <input type="file" class="form-control" id="screenshotFile" accept="image/*">
+        <small class="text-muted">Поддерживаемые форматы: JPG, PNG, WEBP (до 5 МБ)</small>
+      </div>
+
+      <!-- Поле: описание -->
+      <div class="mb-3">
+        <label class="form-label">Описание (alt)</label>
+        <input type="text" class="form-control" id="screenshotAlt" required>
+      </div>
+
+      <button type="submit" class="btn btn-success">Добавить</button>
+    </form>
+  </div>
+</div>
+
+
+      <!-- Список скриншотов -->
+      <div class="card shadow-sm">
+        <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+          <h5 class="mb-0">Текущие скриншоты</h5>
+         <button onclick="saveToServer()" class="btn btn-primary mt-3">
+  <i class="fas fa-save"></i> Сохранить на сервере
+</button>
+        </div>
+        <ul id="screenshotsList" class="list-group list-group-flush"></ul>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+  </div>
+
+
+<!-- Модальное окно редактирования скриншота -->
+<div id="editScreenshotModal" class="modal fade" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Редактировать скриншот</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <!-- Превью изображения -->
+      <div class="text-center px-4 mt-3">
+        <img id="editScreenshotPreview" 
+             src="https://via.placeholder.com/400x225?text=Предпросмотр" 
+             alt="Предпросмотр скриншота" 
+             class="img-fluid rounded-3 shadow-sm" 
+             style="max-width: 100%; height: 200px; object-fit: cover; border: 1px solid #dee2e6;">
+      </div>
+
+     <div class="modal-body">
+  <!-- Поле: Описание (alt) -->
+  <div class="mb-3">
+    <small class="text-muted" style="font-size: 0.8rem;">Альтернативный текст</small>
+    <label class="form-label">Описание (alt)</label>
+    <input type="text" class="form-control" id="editScreenshotAlt">    
+  </div>
+  
+</div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+        <button type="button" class="btn btn-success" id="saveEditScreenshot">Сохранить</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Модальное окно для просмотра в полном размере -->
+<div id="fullscreenModal" class="modal-overlay" style="
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background: rgba(0,0,0,0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s;
+  cursor: pointer;
+">
+<!-- Контейнер для изображения и крестика -->
+  <div style="
+    position: relative;
+    display: inline-block;
+  ">
+ <!-- Крестик поверх изображения -->
+    <button type="button" 
+            class="btn btn-outline-light btn-sm rounded-circle" 
+            style="
+              position: absolute;
+              top: 10px;
+              right: 10px;
+              width: 36px;
+              height: 36px;
+              z-index: 10;
+              font-size: 1.2rem;
+              padding: 0;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+            "
+            onclick="closeFullscreen()"> ×  </button>
+  
+   <!-- Изображение -->
+    <img id="fullscreenImage" style="
+      max-width: 90vw;
+      max-height: 90vh;
+      border-radius: 8px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      object-fit: contain;
+      pointer-events: none; /* чтобы клик по картинке не мешал */
+    ">
+</div>
+
+
+<style>
+  #fullscreenModal.show {
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+
+
+</style> 
+  
+
+  
+</body>
+
+</html>

@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mirror's Edge Catalyst — Фан-сайт</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="js/bootstrap.bundle.min.js"></script>
+
+    <!-- Подключаем наши скрипты -->
+    <script src="js/screenshots.js"></script>
+    <script src="js/modal.js"></script>
+    <script src="js/missions.js"></script>
+   
+
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+        }
+
+        .navbar {
+            background: #e74c3c !important;
+        }
+
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.73), rgba(0, 0, 0, 0.73)),
+                url('https://i.playground.ru/e/FBhWyODd2B2p6yk4jXBGeA.png') center/cover no-repeat;
+            height: 100vh;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.9);
+        }
+
+        .hero h1 {
+            font-size: 4.5rem;
+            font-weight: 900;
+            letter-spacing: 2px;
+        }
+
+        .hero .lead {
+            font-size: 1.5rem;
+            font-weight: 500;
+        }
+
+        .section-padding {
+            padding: 100px 0;
+        }
+
+        .screenshot-grid img {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            transition: transform 0.4s, box-shadow 0.4s;
+        }
+
+        .screenshot-grid img:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(231, 76, 60, 0.4);
+        }
+
+        .video-embed {
+            aspect-ratio: 16/9;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="#"><i class="fas fa-running"></i> Mirror's Edge Catalyst</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#home">Главная</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#description">Описание</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#plot">Сюжет</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#walkthrough">Прохождение</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#screenshots">Скриншоты</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#videos">Видео</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#articles">Статьи</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Главный экран с новой картинкой -->
+    <section id="home" class="hero">
+        <div>
+            <h1 class="display-1">MIRROR'S EDGE<br>CATALYST</h1>
+            <p class="lead mt-4">Беги, прыгай и сражайся за свободу в городе Стекла</p>
+            <a href="#description" class="btn btn-outline-light btn-lg mt-4 px-5 py-3">
+                <i class="fas fa-arrow-down"></i> Начать путешествие
+            </a>
+        </div>
+    </section>
+
+    <!-- Обновлённое описание -->
+    <div class="container section-padding" id="description">
+        <h2 class="text-center mb-5"><i class="fas fa-info-circle text-danger"></i> Описание игры</h2>
+        <div class="row justify-content-center">
+            <div class="col-lg-9 lead text-white bg-dark bg-opacity-75 p-5 rounded-4">
+                <p><strong>Mirror’s Edge Catalyst</strong> — это стильный и динамичный перезапуск культовой серии,
+                    который переносит игрока в футуристический город <strong>Столичная Столица (Glass)</strong> —
+                    блестящий, ослепительный мегаполис, скрывающий под идеальной поверхностью тотальную систему
+                    контроля.</p>
+
+                <p>В центре истории — молодая рейнерка <strong>Фэйт Коннорс</strong>, дерзкая и уверенная посланница
+                    подполья, которая использует паркур как главное оружие в борьбе против корпоративной тирании.</p>
+
+                <p>Игра раскрывает путь Фэйт от одиночки-бунтарки до символа сопротивления. Сюжет плавно погружает в
+                    интриги, тайны и жёсткие правила тоталитарного режима <strong>«Конгломерата»</strong>, где каждый
+                    шаг гражданина отслеживается, а неповиновение подавляется немедленно.</p>
+
+                <p>Главная особенность — <strong>акцент на свободе перемещения</strong>. Город Glass — огромная,
+                    открытая и вертикальная игровая площадка, наполненная маршрутами, прыжками и скрытыми уголками.
+                    Механика паркура впечатляет плавностью и точностью: каждое ускорение, рывок, подкат, бег по стене
+                    или прыжок с небоскрёба соединяются в единый непрерывный поток движения.</p>
+
+                <p>Боевая система делает упор на манёвренность и использование окружения. Вместо огнестрельного оружия —
+                    удары, толчки, акробатические приёмы и инерция как ключ к победе.</p>
+
+                <p>Всё это подкреплено <strong>минималистичным, но выразительным визуальным стилем</strong>: белые линии
+                    города контрастируют с яркими цветами, а электронный саундтрек Solar Fields создаёт ощущение
+                    лёгкости, скорости и напряжения.</p>
+
+                <p class="fw-bold mt-4">Mirror’s Edge Catalyst — это не просто игра про паркур. Это история о свободе,
+                    смелости и борьбе против тотального контроля, рассказанная через движение и дух сопротивления.</p>
+            </div>
+        </div>
+    </div>
+
+    <section id="walkthrough" class="section-padding bg-light">
+        <div class="container">
+            <h2 class="text-center mb-5">
+                <i class="fas fa-gamepad text-danger"></i> Прохождение
+            </h2>
+
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+
+                    <!-- Видео сверху -->
+                    <div class="ratio ratio-16x9 mb-5 rounded-4 overflow-hidden shadow-lg">
+                        <iframe src="https://www.youtube.com/embed/e9ywtUfsXBg"
+                            title="Полное прохождение Mirror's Edge Catalyst (без комментариев)" allowfullscreen
+                            class="border-0"></iframe>
+                    </div>
+
+                    <p class="text-center lead mb-4">
+                        Полное текстовое прохождение всех миссий можно почитать на
+                        <a href="https://stopgame.ru/show/83292/mirrors_edge_catalyst_prohozhdenie" target="_blank"
+                            class="text-danger fw-bold text-decoration-underline">
+                            StopGame.ru →
+                        </a>
+                    </p>
+
+
+
+                    <!-- Аккордеон со списком миссий -->
+                    <div class="accordion accordion-flush" id="missionsAccordion">
+                        <div class="accordion-item border-0 shadow-sm mb-3 rounded-3 overflow-hidden">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed bg-danger text-white fw-bold" type="button"
+                                    data-bs-toggle="collapse" data-bs-target="#missionsList">
+                                    Все сюжетные миссии (нажми, чтобы раскрыть)
+                                </button>
+                            </h2>
+                            <div id="missionsList" class="accordion-collapse collapse"
+                                data-bs-parent="#missionsAccordion">
+                                <div class="accordion-body p-0">
+
+                                    <!-- Вложенный аккордеон для каждой миссии -->
+
+                                    <div class="accordion" id="missionsDetails">
+
+
+                                        <div class="accordion" id="missionsDetails">
+                                            <!-- Сюда будут добавлены миссии -->
+                                        </div>
+
+                                        <!--Конец всего аккардеона-->
+                                    </div>
+
+                                    <p class="text-muted small text-center mt-3">
+                                        Всего в игре 18 сюжетных миссий + множество побочных заданий и гонок.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+<script>// Глобальные переменные
+
+function getItemsPerPage() {
+  if (window.innerWidth <= 576) {
+    return 2; // Мобилка: 1×2
+  } else if (window.innerWidth <= 768) {
+    return 4; // Планшет: 2×2
+  } else {
+    return 6; // Десктоп: 3×2
+  }
+}
+
+// Глобальная переменная
+let currentSlide = 0;
+let itemsPerPage = getItemsPerPage(); // Начальное значение
+
+// Обновляем при изменении размера окна
+window.addEventListener('resize', () => {
+  const newItemsPerPage = getItemsPerPage();
+  if (newItemsPerPage !== itemsPerPage) {
+    itemsPerPage = newItemsPerPage;
+    currentSlide = 0; // Сбрасываем на первую страницу
+    renderCarousel(); // Перерисовываем
+  }
+});
+
+// Функция: рендер текущих 6 скриншотов
+function renderCarousel() {
+  const container = document.getElementById('screenshotsGallery');
+  container.innerHTML = '';
+
+  const start = currentSlide * itemsPerPage;
+  const end = start + itemsPerPage;
+  const paginated = screenshots.slice(start, end);
+
+  paginated.forEach(s => {
+    const item = document.createElement('div');
+    item.className = 'screenshot-item';
+    item.onclick = () => showFullscreen(s.src);
+
+    item.innerHTML = `
+       <img src="${s.src}" alt="Скриншот игры Mirror's Edge Catalyst">
+    `;
+
+    container.appendChild(item);
+  });
+
+  // Отключаем кнопки, если нет следующих/предыдущих
+  document.querySelector('.carousel-btn.prev').disabled = currentSlide === 0;
+  document.querySelector('.carousel-btn.next').disabled = end >= screenshots.length;
+}
+
+// Кнопки
+function nextSlide() {
+  if ((currentSlide + 1) * itemsPerPage < screenshots.length) {
+    currentSlide++;
+    renderCarousel();
+  }
+}
+
+function prevSlide() {
+  if (currentSlide > 0) {
+    currentSlide--;
+    renderCarousel();
+  }
+}
+
+// Инициализация
+document.addEventListener('DOMContentLoaded', function () {
+  if (typeof screenshots !== 'undefined') {
+    renderCarousel();
+  }
+});
+</script>
+
+
+
+
+<div class="container mt-5">
+  <h2 class="text-center mb-5"><i class="fas fa-images text-danger"></i> Скриншоты</h2>
+
+<!-- Адаптивная обёртка -->
+  <div class="carousel-wrapper">
+    <div class="screenshots-carousel">
+
+
+    <!-- Кнопки навигации -->
+    <button type="button" class="carousel-btn prev" onclick="prevSlide()">
+      <i class="fas fa-chevron-left"></i>
+    </button>
+    <button type="button" class="carousel-btn next" onclick="nextSlide()">
+      <i class="fas fa-chevron-right"></i>
+    </button>
+
+    <!-- Сетка 3x2 -->
+    <div class="screenshots-grid" id="screenshotsGallery">
+      <!-- сюда вставляем 6 скриншотов -->
+    </div>
+  </div>
+</div>
+  
+<!---
+<section class="section-padding" id="screenshots">
+  <div class="container">
+    <h2 class="text-center mb-5"><i class="fas fa-images text-danger"></i> Скриншоты</h2>
+    <div class="row screenshot-grid g-4" id="screenshotsContainer">
+   
+    </div>
+  </div>
+</section>-->
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const footer = document.querySelector('.site-footer');
+
+  if (!footer) {
+    console.warn("Футер не найден");
+    return;
+  }
+
+  // Делаем видимым только после полной загрузки
+  setTimeout(() => {
+    function checkFooter() {
+      const scrollPos = window.innerHeight + window.scrollY;
+      const footerTop = footer.offsetTop;
+
+      if (scrollPos >= footerTop + 50 && !footer.classList.contains('show')) {
+        footer.classList.add('show');
+      }
+    }
+
+    // Запускаем при загрузке и скролле
+    checkFooter();
+    window.addEventListener('scroll', checkFooter);
+    window.addEventListener('resize', checkFooter);
+  }, 100); // Небольшая задержка, чтобы браузер успел отрисовать
+});
+</script>
+
+
+
+ <!-- === FOOTER: на всю ширину экрана === -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-4 text-center text-lg-start">
+        <a href="#" class="footer-logo text-decoration-none">
+          <i class="fas fa-running"></i> Mirror's Edge Catalyst
+        </a>
+        <p class="text-muted mt-2 mb-0">Фан-сайт | 2025</p>
+      </div>
+
+      <div class="col-lg-4 text-center mt-3 mt-lg-0">
+        <ul class="nav justify-content-center">
+          <li class="nav-item"><a href="#home" class="nav-link px-2">Главная</a></li>
+          <li class="nav-item"><a href="#description" class="nav-link px-2">Описание</a></li>
+          <li class="nav-item"><a href="#screenshots" class="nav-link px-2">Скриншоты</a></li>
+          <li class="nav-item"><a href="#videos" class="nav-link px-2">Видео</a></li>
+        </ul>
+      </div>
+
+      <div class="col-lg-4 text-center text-lg-end mt-3 mt-lg-0">
+        <a href="#" class="text-white me-3"><i class="fab fa-youtube fa-lg"></i></a>
+        <a href="#" class="text-white me-3"><i class="fab fa-twitter fa-lg"></i></a>
+        <a href="#" class="text-white me-3"><i class="fab fa-discord fa-lg"></i></a>
+        <a href="#" class="text-white"><i class="fab fa-github fa-lg"></i></a>
+      </div>
+    </div>
+  </div>
+</footer>
+ 
+
+
+
+
+<!-- === КНОПКА "НАВЕРХ" === -->
+<a href="#home" class="btn-up" id="btn-up" aria-label="Прокрутить наверх">
+  <i class="fas fa-arrow-up"></i>
+</a>
+
+
+<script>
+// Проверяем, когда DOM готов
+document.addEventListener("DOMContentLoaded", function () {
+  const btnUp = document.getElementById("btn-up");
+
+
+
+  // Функция: показать/скрыть кнопку
+  function toggleBtn() {
+    if (window.scrollY > 300) {
+      btnUp.classList.add("show");
+    } else {
+      btnUp.classList.remove("show");
+    }
+  }
+
+  // Слушаем скролл
+  window.addEventListener("scroll", toggleBtn);
+
+  // Инициализация
+  toggleBtn();
+});
+</script>
+
+</body>
+
+</html>
