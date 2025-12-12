@@ -134,26 +134,49 @@ function renderScreenshotsList() {
 // ==============
 // ✏️ Редактирование миссии — открывает модальное окно
 // ==============
-function editMission(e) {
+async function editMission(e) {
   const id = +e.target.closest('.edit')?.dataset.id || +e.target.dataset.id;
   const m = missions.find(m => m.id === id);
   if (!m) return;
 
-  const modal = new bootstrap.Modal(document.getElementById('addMissionModal'));
-  modal.show();
+  const modalElement = document.getElementById('addMissionModal');
+  const modal = new bootstrap.Modal(modalElement);
 
+  // Заполняем мету
   document.querySelector('#addMissionModal .modal-title').textContent = 'Редактировать миссию';
   document.getElementById('newMissionId').value = m.id;
   document.getElementById('newMissionId').readOnly = true;
   document.getElementById('newMissionTitle').value = m.title;
   document.getElementById('newMissionSubtitle').value = m.subtitle;
-  document.getElementById('newMissionEditor').innerHTML = m.content || '';
 
+  // ✅ Загружаем контент из HTML-файла
+  try {
+    const response = await fetch(m.src);
+    if (!response.ok) throw new Error('Файл не найден');
+
+    const html = await response.text();
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, 'text/html');
+
+    // Извлекаем только содержимое <body>
+    const bodyContent = doc.body ? doc.body.innerHTML : html;
+
+    // ✅ Вставляем в редактор
+    document.getElementById('newMissionEditor').innerHTML = bodyContent;
+  } catch (err) {
+    console.error('Ошибка загрузки контента:', err);
+    document.getElementById('newMissionEditor').innerHTML = '<p>Не удалось загрузить содержимое миссии.</p>';
+  }
+
+  // Кнопка "Сохранить"
   const saveBtn = document.getElementById('saveNewMission');
   saveBtn.textContent = '✅ Сохранить изменения';
   saveBtn.classList.remove('btn-success');
   saveBtn.classList.add('btn-primary');
+
+  modal.show();
 }
+
 
 // ==============
 // 🗑️ Удаление миссии (объект + файл)
@@ -266,56 +289,125 @@ document.addEventListener('keydown', e => {
 // ➕ Добавление изображения в редактор
 // ==============
 function insertTextToEditor(html) {
-  document.execCommand('insertHTML', false, html);
-  document.getElementById('newMissionEditor').focus();
-}
+  const editor = document.getElementById('newMissionEditor');
+  if (!editor) {
+    console.error('❌ Редактор не найден');
+    return;
+  }
 
-async function addImageToNewEditor() {
-  const input = document.createElement('input');
-  input.type = 'file';
-  input.accept = 'image/*';
-
-  input.onchange = async (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-
-    const formData = new FormData();
-    formData.append('file', file);
-
-    try {
-      const response = await fetch('upload.php', {
-        method: 'POST',
-        body: formData
-      });
-
-      const result = await response.json();
-
-      if (result.success) {
-        const img = `<p><img src="${result.src}" alt="Изображение" style="max-width:100%; border-radius:8px; box-shadow:0 4px 12px rgba(0,0,0,0.3);"></p>`;
-        insertTextToEditor(img);
-
-        // 🔁 Проверяем, включён ли тогл
-        const addToGallery = document.getElementById('addToGalleryToggle').checked;
-
-        if (addToGallery) {
-          const id = screenshots.length ? Math.max(...screenshots.map(s => s.id)) + 1 : 1;
-          screenshots.push({
-            id: id,
-            src: result.src,
-            alt: `Скриншот из миссии "${document.getElementById('newMissionTitle').value || 'без названия'}"`
-          });
-          renderScreenshotsList();
-        }
-      } else {
-        alert('Ошибка загрузки: ' + result.error);
-      }
-    } catch (err) {
-      alert('Ошибка сети: ' + err.message);
+  // Способ 1: через execCommand — если разрешено
+  if (document.queryCommandSupported && document.queryCommandSupported('insertHTML')) {
+    document.execCommand('insertHTML', false, html);
+  } 
+  // Способ 2: ручная вставка (резервный)
+  else {
+    const selection = window.getSelection();
+    if (selection.rangeCount) {
+      const range = selection.getRangeAt(0);
+      const fragment = document.createRange().createContextualFragment(html);
+      range.deleteContents();
+      range.insertNode(fragment);
+      range.collapse(false);
+    } else {
+      // Если нет выделения — просто добавляем в конец
+      editor.insertAdjacentHTML('beforeend', html);
     }
-  };
+  }
 
-  input.click();
+  // Фокусируем редактор
+  editor.focus();
 }
+
+
+function addImageToNewEditor() {
+  const modal = new bootstrap.Modal(document.getElementById('insertImageModal'));
+  const uploadTab = document.getElementById('upload-tab');
+  const urlTab = document.getElementById('url-tab');
+
+  // Показываем модальное окно
+  modal.show();
+
+  // Сброс полей при открытии
+  document.getElementById('uploadImageInput').value = '';
+  document.getElementById('urlImageInput').value = '';
+  document.getElementById('imageAltInput').value = '';
+  uploadTab.classList.add('active');
+  urlTab.classList.remove('active');
+  document.querySelector('#upload-pane').classList.add('show', 'active');
+  document.querySelector('#url-pane').classList.remove('show', 'active');
+
+  // Убедимся, что Bootstrap табы работают
+  document.querySelectorAll('#imageTab button[data-bs-toggle="pill"]').forEach(btn => {
+    btn.onclick = function () {
+      document.querySelectorAll('#imageTab button').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('show', 'active'));
+
+      this.classList.add('active');
+      const target = this.getAttribute('data-bs-target');
+      document.querySelector(target).classList.add('show', 'active');
+    };
+  });
+
+  // Обработчик кнопки "Вставить"
+  const insertBtn = document.getElementById('insertImageConfirm');
+  insertBtn.onclick = async function () {
+    let src = '';
+    const alt = document.getElementById('imageAltInput').value.trim() || 'Изображение';
+
+    // Проверяем активную вкладку
+    if (document.querySelector('#upload-pane').classList.contains('show')) {
+      const file = document.getElementById('uploadImageInput').files[0];
+      if (!file) {
+        alert('Выберите файл!');
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append('file', file);
+
+      try {
+        const response = await fetch('upload.php', { method: 'POST', body: formData });
+        const result = await response.json();
+        if (result.success) {
+          src = result.src;
+        } else {
+          alert('Ошибка загрузки: ' + result.error);
+          return;
+        }
+      } catch (err) {
+        alert('Ошибка сети: ' + err.message);
+        return;
+      }
+    } else {
+      const url = document.getElementById('urlImageInput').value.trim();
+      if (!url) {
+        alert('Введите URL!');
+        return;
+      }
+      if (!/\.(jpe?g|png|webp|gif)$/i.test(url)) {
+        alert('Ссылка должна вести к изображению (.jpg, .png и т.д.)');
+        return;
+      }
+      src = url;
+    }
+
+    // Вставляем в редактор
+    const img = `<p><img src="${src}" alt="${alt}" style="max-width:100%; border-radius:8px; box-shadow:0 4px 12px rgba(0,0,0,0.3);"></p>`;
+    insertTextToEditor(img);
+
+    // Добавляем в галерею, если включено
+    if (document.getElementById('addToGalleryToggle')?.checked) {
+      const id = screenshots.length ? Math.max(...screenshots.map(s => s.id)) + 1 : 1;
+      screenshots.push({ id, src, alt: `Скриншот: ${alt}` });
+      renderScreenshotsList();
+    }
+
+    // Закрываем модальное окно
+    modal.hide();
+  };
+}
+
+
 
 
 // ==============
@@ -461,6 +553,55 @@ async function saveToServer() {
 // 🚀 Инициализация
 // ==============
 document.addEventListener('DOMContentLoaded', function () {
+
+  // Обработчик кнопки "Отмена"
+document.getElementById('cancelMissionBtn')?.addEventListener('click', function () {
+  const modalElement = document.getElementById('addMissionModal');
+  const modalInstance = bootstrap.Modal.getInstance(modalElement);
+  
+  if (modalInstance) {
+    modalInstance.hide(); // Закрываем модальное окно
+  }
+});
+
+// Также при закрытии вручную — сброс формы
+document.getElementById('addMissionModal')?.addEventListener('hidden.bs.modal', function () {
+  // Сброс формы
+  document.getElementById('newMissionId').value = '';
+  document.getElementById('newMissionId').readOnly = false;
+  document.getElementById('newMissionTitle').value = '';
+  document.getElementById('newMissionSubtitle').value = '';
+  document.getElementById('newMissionEditor').innerHTML = '';
+
+  // Сброс кнопки
+  const saveBtn = document.getElementById('saveNewMission');
+  saveBtn.textContent = '➕ Добавить';
+  saveBtn.classList.remove('btn-primary');
+  saveBtn.classList.add('btn-success');
+
+  // Сброс заголовка
+  document.querySelector('#addMissionModal .modal-title').textContent = 'Добавить миссию';
+
+  // Сброс цвета текста
+  document.getElementById('textColorPicker').value = '#000000';
+
+  // Сброс тогла
+  document.getElementById('addToGalleryToggle').checked = true;
+});
+
+// Форматирование текста
+function formatText(command) {
+  document.execCommand(command, false, null);
+  document.getElementById('newMissionEditor').focus();
+}
+
+// Цвет текста
+document.getElementById('textColorPicker')?.addEventListener('input', function () {
+  const color = this.value;
+  document.execCommand('foreColor', false, color);
+  document.getElementById('newMissionEditor').focus();
+});
+
   // === Сохранение миссии (новая или редактирование) ===
   document.getElementById('saveNewMission')?.addEventListener('click', async function () {
     const id = parseInt(document.getElementById('newMissionId').value);
