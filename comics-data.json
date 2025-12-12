@@ -1,0 +1,16 @@
+[
+  {
+    "id": 1,
+    "title": "Бегущая по краю",
+    "cover": "comics/covers/comic1.jpg",
+    "pdf": "comics/comic1.pdf",
+    "description": "Фэйт расследует заговор в корпорации."
+  },
+  {
+    "id": 2,
+    "title": "Тень города",
+    "cover": "comics/covers/comic2.jpg",
+    "pdf": "comics/comic2.pdf",
+    "description": "Новая угроза в Стекле."
+  }
+]

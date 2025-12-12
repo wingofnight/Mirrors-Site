@@ -311,15 +311,39 @@ document.addEventListener('DOMContentLoaded', function () {
   </div>
 </div>
   
-<!---
-<section class="section-padding" id="screenshots">
-  <div class="container">
-    <h2 class="text-center mb-5"><i class="fas fa-images text-danger"></i> Скриншоты</h2>
-    <div class="row screenshot-grid g-4" id="screenshotsContainer">
-   
+<!-- === КОМИКСЫ === -->
+<div class="container mt-5" id="comics">
+  <h2 class="text-center mb-5"><i class="fas fa-book text-danger"></i> Комиксы</h2>
+  <div class="carousel-wrapper">
+    <div class="screenshots-carousel">
+      <button type="button" class="carousel-btn prev" id="prevComic">
+        <i class="fas fa-chevron-left"></i>
+      </button>
+      <button type="button" class="carousel-btn next" id="nextComic">
+        <i class="fas fa-chevron-right"></i>
+      </button>
+      <div class="screenshots-grid" id="comicsGallery">
+        <!-- Сюда вставятся обложки -->
+      </div>
     </div>
   </div>
-</section>-->
+</div>
+
+<!-- === МОДАЛЬНОЕ ОКНО: PDF === -->
+<div class="modal fade" id="comicModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="comicModalLabel">Комикс</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body p-0" style="height: 80vh;">
+        <iframe id="pdfViewer" src="" style="width:100%; height:100%; border: none;" type="application/pdf"></iframe>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
@@ -414,6 +438,145 @@ document.addEventListener("DOMContentLoaded", function () {
   toggleBtn();
 });
 </script>
+
+
+<script>
+// === КОМИКСЫ: Глобальные переменные ===
+let comics = [];
+let currentComicSlide = 0;
+
+function getItemsPerPage() {
+  if (window.innerWidth <= 576) return 2;
+  if (window.innerWidth <= 768) return 4;
+  return 6;
+}
+let itemsPerComicPage = getItemsPerPage();
+
+// === Загрузка комиксов ===
+async function loadComics() {
+  try {
+    const response = await fetch('comics-data.json');
+    if (!response.ok) throw new Error('Не удалось загрузить comics-data.json');
+    comics = await response.json();
+    renderComics();
+  } catch (err) {
+    console.error('Ошибка загрузки комиксов:', err);
+    comics = [];
+    document.getElementById('comics').style.display = 'none';
+  }
+}
+
+// === Рендер карусели комиксов ===
+function renderComics() {
+  const container = document.getElementById('comicsGallery');
+  if (!container) return;
+  container.innerHTML = '';
+
+  const start = currentComicSlide * itemsPerComicPage;
+  const end = start + itemsPerComicPage;
+  const paginated = comics.slice(start, end);
+
+  paginated.forEach(comic => {
+    const item = document.createElement('div');
+    item.className = 'screenshot-item';
+    item.style.cursor = 'pointer';
+    item.onclick = () => openComic(comic.pdf, comic.title);
+
+    item.innerHTML = `
+      <img src="${comic.cover}" alt="${comic.title}" style="width:100%; height:600px; object-fit:cover; border-radius:12px;">
+      <div class="text-center mt-2">
+        <small class="text-dark fw-bold">${comic.title}</small>
+      </div>
+    `;
+    container.appendChild(item);
+  });
+
+  document.getElementById('prevComic').disabled = currentComicSlide === 0;
+  document.getElementById('nextComic').disabled = end >= comics.length;
+}
+
+// === Открыть PDF ===
+function openComic(pdfSrc, title) {
+  // 🔍 Определяем, мобильное ли устройство
+  const isMobile = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+  // 🖥️ Десктоп — через pdf.js
+  if (!isMobile) {
+    const modal = new bootstrap.Modal(document.getElementById('comicModal'));
+    const iframe = document.getElementById('pdfViewer');
+
+    // Полный URL, чтобы работало при любых путях
+    const fullPdfUrl = new URL(pdfSrc, window.location.origin).href;
+    iframe.src = `pdfjs/web/viewer.html?file=${encodeURIComponent(fullPdfUrl)}`;
+
+    document.getElementById('comicModalLabel').textContent = title;
+    modal.show();
+
+    // Очистка при закрытии
+    modal._element.addEventListener('hidden.bs.modal', () => {
+      iframe.src = '';
+    });
+
+  } 
+  // 📱 Мобильное — открываем напрямую
+  else {
+    // Показываем подсказку (можно убрать)
+    const modal = new bootstrap.Modal(document.getElementById('comicModal'));
+    const modalLabel = document.getElementById('comicModalLabel');
+    const modalBody = document.getElementById('comicModalBody');
+
+    modalLabel.textContent = title;
+    modalBody.innerHTML = `
+      <div class="text-center p-4">
+        <p><i class="fas fa-info-circle text-info"></i> <strong>Открываем комикс…</strong></p>
+        <p>Если не открылось автоматически — нажмите кнопку ниже.</p>
+        <a href="${pdfSrc}" target="_blank" class="btn btn-danger btn-lg">
+          <i class="fas fa-file-pdf"></i> Открыть комикс
+        </a>
+        <p class="mt-3 text-muted small">Откроется в браузере или приложении для PDF</p>
+      </div>
+    `;
+    modal.show();
+
+    // Пытаемся открыть автоматически
+    setTimeout(() => {
+      window.open(pdfSrc, '_blank');
+    }, 1000);
+  }
+}
+
+
+// === Кнопки ===
+document.getElementById('nextComic')?.addEventListener('click', () => {
+  if ((currentComicSlide + 1) * itemsPerComicPage < comics.length) {
+    currentComicSlide++;
+    renderComics();
+  }
+});
+
+document.getElementById('prevComic')?.addEventListener('click', () => {
+  if (currentComicSlide > 0) {
+    currentComicSlide--;
+    renderComics();
+  }
+});
+
+// === Ресайз ===
+window.addEventListener('resize', () => {
+  const newItems = getItemsPerPage();
+  if (newItems !== itemsPerComicPage) {
+    itemsPerComicPage = newItems;
+    currentComicSlide = 0;
+    renderComics();
+  }
+});
+
+// === Загрузка при старте ===
+document.addEventListener('DOMContentLoaded', () => {
+  loadComics();
+});
+</script>
+
 
 </body>
 
