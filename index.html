@@ -216,7 +216,7 @@ function getItemsPerPage() {
   if (window.innerWidth <= 576) {
     return 2; // Мобилка: 1×2
   } else if (window.innerWidth <= 768) {
-    return 4; // Планшет: 2×2
+    return 2; // Планшет: 2×2
   } else {
     return 6; // Десктоп: 3×2
   }
@@ -446,9 +446,9 @@ let comics = [];
 let currentComicSlide = 0;
 
 function getItemsPerPage() {
-  if (window.innerWidth <= 576) return 2;
-  if (window.innerWidth <= 768) return 4;
-  return 6;
+  if (window.innerWidth <= 576) return 1;
+  if (window.innerWidth <= 768) return 1;
+  return 3;
 }
 let itemsPerComicPage = getItemsPerPage();
 

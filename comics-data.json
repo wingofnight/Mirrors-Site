@@ -2,15 +2,43 @@
   {
     "id": 1,
     "title": "Бегущая по краю",
-    "cover": "comics/covers/comic1.jpg",
-    "pdf": "comics/comic1.pdf",
-    "description": "Фэйт расследует заговор в корпорации."
+    "cover": "pdfjs/comics/covers/comic1.jpg",
+    "pdf": "pdfjs/comics/comic1.pdf",
+    "description": "Фэйт расследует заговор в корпорации, угрожающий свободе передвижения в Стекле."
   },
   {
     "id": 2,
     "title": "Тень города",
-    "cover": "comics/covers/comic2.jpg",
-    "pdf": "comics/comic2.pdf",
-    "description": "Новая угроза в Стекле."
+    "cover": "pdfjs/comics/covers/comic2.jpg",
+    "pdf": "pdfjs/comics/comic2.pdf",
+    "description": "Новая угроза в Стекле — таинственная система слежки, проникающая даже в подполье."
+  },
+  {
+    "id": 3,
+    "title": "Тень над Стеклом",
+    "cover": "pdfjs/comics/covers/comic3.jpg",
+    "pdf": "pdfjs/comics/comic3.pdf",
+    "description": "Фэйт ищет пропавшего рейнера, оставившего зашифрованные метки на крышах. Каждая ведёт к правде, которую Конгломерат хочет скрыть."
+  },
+  {
+    "id": 4,
+    "title": "Код Красного Бега",
+    "cover": "pdfjs/comics/covers/comic4.jpg",
+    "pdf": "pdfjs/comics/comic4.pdf",
+    "description": "Легенда о первом рейнере, создавшем маршрут, который нельзя стереть. Фэйт находит его и активирует — в ответ на новую волны подавления."
+  },
+  {
+    "id": 5,
+    "title": "Голос из-под сети",
+    "cover": "pdfjs/comics/covers/comic5.jpg",
+    "pdf": "pdfjs/comics/comic5.pdf",
+    "description": "Подпольный радиопередатчик вещает сигнал, который не могут отследить. Фэйт должна добраться до антенны — пока её не нашли «Очи»."
+  },
+  {
+    "id": 6,
+    "title": "Искра",
+    "cover": "pdfjs/comics/covers/comic6.jpg",
+    "pdf": "pdfjs/comics/comic6.pdf",
+    "description": "Один прыжок. Один взгляд. Юный новичок видит, как Фэйт летит между башнями — и решает, что тоже начнёт бежать."
   }
 ]
