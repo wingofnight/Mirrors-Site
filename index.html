@@ -519,28 +519,7 @@ function openComic(pdfSrc, title) {
   } 
   // 📱 Мобильное — открываем напрямую
   else {
-    // Показываем подсказку (можно убрать)
-    const modal = new bootstrap.Modal(document.getElementById('comicModal'));
-    const modalLabel = document.getElementById('comicModalLabel');
-    const modalBody = document.getElementById('comicModalBody');
-
-    modalLabel.textContent = title;
-    modalBody.innerHTML = `
-      <div class="text-center p-4">
-        <p><i class="fas fa-info-circle text-info"></i> <strong>Открываем комикс…</strong></p>
-        <p>Если не открылось автоматически — нажмите кнопку ниже.</p>
-        <a href="${pdfSrc}" target="_blank" class="btn btn-danger btn-lg">
-          <i class="fas fa-file-pdf"></i> Открыть комикс
-        </a>
-        <p class="mt-3 text-muted small">Откроется в браузере или приложении для PDF</p>
-      </div>
-    `;
-    modal.show();
-
-    // Пытаемся открыть автоматически
-    setTimeout(() => {
-      window.open(pdfSrc, '_blank');
-    }, 1000);
+    window.open(pdfSrc, '_blank');
   }
 }
 
