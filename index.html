@@ -495,32 +495,7 @@ function renderComics() {
 }
 
 // === Открыть PDF ===
-function openComic(pdfSrc, title) {
-  // 🔍 Определяем, мобильное ли устройство
-  const isMobile = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-
-  // 🖥️ Десктоп — через pdf.js
-  if (!isMobile) {
-    const modal = new bootstrap.Modal(document.getElementById('comicModal'));
-    const iframe = document.getElementById('pdfViewer');
-
-    // Полный URL, чтобы работало при любых путях
-    const fullPdfUrl = new URL(pdfSrc, window.location.origin).href;
-    iframe.src = `pdfjs/web/viewer.html?file=${encodeURIComponent(fullPdfUrl)}`;
-
-    document.getElementById('comicModalLabel').textContent = title;
-    modal.show();
-
-    // Очистка при закрытии
-    modal._element.addEventListener('hidden.bs.modal', () => {
-      iframe.src = '';
-    });
-
-  } 
-  // 📱 Мобильное — открываем напрямую
-  else {
-    window.open(pdfSrc, '_blank');
-  }
+function openComic(pdfSrc, title) { window.open(pdfSrc, '_blank');
 }
 
 
